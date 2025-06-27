@@ -5,8 +5,10 @@ const { currentLanguage, blok } = Astro.props;
 
 let url;
 if (blok.link.linktype === 'story') {
-	url = currentLanguage ? `/${currentLanguage}/` : '';
-	url += '/' + blok.link?.story?.full_slug;
+	url =
+		(currentLanguage ? `/${currentLanguage}/` : '') +
+		'/' +
+		(blok.link?.story?.full_slug === 'home' ? '' : blok.link?.story?.full_slug);
 } else if (blok.link.linktype === 'url') {
 	url = blok.link?.url;
 }
