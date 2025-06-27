@@ -8,9 +8,14 @@ const getLanguageCodes = async () => {
 };
 
 const getI18nStorySlug = (currentLanguage, story) => {
-	const slug =
-		story.translated_slugs.find((slug) => slug.lang === currentLanguage)
-			?.path ?? story.default_full_slug;
+	const translatedSlug = story.translated_slugs.find((slug) => {
+		return slug.path !== 'home' && slug.lang === currentLanguage;
+	});
+
+	const defaultSlug =
+		story.default_full_slug === 'home' ? '' : story.default_full_slug;
+	const slug = translatedSlug?.path ?? defaultSlug;
+
 	return slug;
 };
 
