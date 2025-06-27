@@ -1,0 +1,30 @@
+---
+import { languages } from '../utils/i18n';
+const { currentLanguage, path } = Astro.props;
+console.log('Current Language:', currentLanguage);
+console.log('Path:', path);
+---
+
+<header>
+	<label id="language-switcher">Choose a language:</label>
+	<details aria-labelledby="language-switcher">
+		<summary>{currentLanguage || 'en'}</summary>
+		<ul>
+			<li>
+				<a href={`/${path}`} class={!currentLanguage ? 'active' : ''}>en</a>
+			</li>
+			{
+				languages.map((lang) => (
+					<li>
+						<a
+							href={`/${lang}/${path}`}
+							class={lang === currentLanguage ? 'active' : ''}
+						>
+							{lang}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</details>
+</header>

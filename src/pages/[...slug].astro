@@ -1,0 +1,30 @@
+---
+import { useStoryblokApi } from '@storyblok/astro';
+import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
+import Layout from '../layouts/Layout.astro';
+import { languages } from '../utils/i18n';
+
+const slug = Astro.params.slug?.split('/') ?? [];
+
+const language = languages.includes(slug[0]) ? slug[0] : undefined;
+
+if (language) {
+	slug.shift();
+}
+
+const storyblokApi = useStoryblokApi();
+const { data } = await storyblokApi.get(
+	`cdn/stories/${slug && slug.length > 0 ? slug.join('/') : 'home'}`,
+	{
+		version: 'draft',
+		resolve_links: 'story',
+		language,
+	},
+);
+
+const story = data.story;
+---
+
+<Layout currentLanguage={language} path={slug.join('/')}>
+	<StoryblokComponent blok={story.content} />
+</Layout>
