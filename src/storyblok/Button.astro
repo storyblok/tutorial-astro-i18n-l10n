@@ -1,11 +1,12 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
 
-const { blok } = Astro.props;
+const { currentLanguage, blok } = Astro.props;
 
 let url;
 if (blok.link.linktype === 'story') {
-	url = '/' + blok.link?.story?.full_slug;
+	url = currentLanguage ? `/${currentLanguage}/` : '';
+	url += '/' + blok.link?.story?.full_slug;
 } else if (blok.link.linktype === 'url') {
 	url = blok.link?.url;
 }

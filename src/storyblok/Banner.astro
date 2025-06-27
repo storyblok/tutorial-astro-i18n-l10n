@@ -1,7 +1,7 @@
 ---
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import { storyblokEditable } from '@storyblok/astro';
-const { blok } = Astro.props;
+const { currentLanguage, blok } = Astro.props;
 ---
 
 <section class="banner" {...storyblokEditable(blok)}>
@@ -10,7 +10,12 @@ const { blok } = Astro.props;
 		blok.buttons && blok.buttons.length > 0 && (
 			<div class="button-container">
 				{blok.buttons?.map((button) => {
-					return <StoryblokComponent blok={button} />;
+					return (
+						<StoryblokComponent
+							currentLanguage={currentLanguage}
+							blok={button}
+						/>
+					);
 				})}
 			</div>
 		)
