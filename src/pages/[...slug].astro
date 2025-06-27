@@ -2,10 +2,11 @@
 import { useStoryblokApi } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import Layout from '../layouts/Layout.astro';
-import { languages } from '../utils/i18n';
+import { getLanguageCodes } from '../utils/i18n';
 
 const slug = Astro.params.slug?.split('/') ?? [];
 
+const languages = await getLanguageCodes();
 const language = languages.includes(slug[0]) ? slug[0] : undefined;
 
 if (language) {
@@ -25,6 +26,6 @@ const { data } = await storyblokApi.get(
 const story = data.story;
 ---
 
-<Layout currentLanguage={language} path={slug.join('/')}>
+<Layout currentLanguage={language} story={story}>
 	<StoryblokComponent currentLanguage={language} blok={story.content} />
 </Layout>

@@ -1,8 +1,17 @@
 import { useStoryblokApi } from '@storyblok/astro';
 
-const storyblokApi = useStoryblokApi();
-const { data } = await storyblokApi.get('cdn/spaces/me');
+const getLanguageCodes = async () => {
+	const storyblokApi = useStoryblokApi();
+	const { data } = await storyblokApi.get('cdn/spaces/me');
 
-const languages = data.space.language_codes;
+	return data.space.language_codes;
+};
 
-export { languages };
+const getI18nStorySlug = (currentLanguage, story) => {
+	const slug =
+		story.translated_slugs.find((slug) => slug.lang === currentLanguage)
+			?.path ?? story.default_full_slug;
+	return slug;
+};
+
+export { getLanguageCodes, getI18nStorySlug };

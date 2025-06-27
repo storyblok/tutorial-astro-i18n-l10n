@@ -13,6 +13,6 @@ const { data } = await storyblokApi.get('cdn/stories/home', {
 const story = data.story;
 ---
 
-<Layout currentLanguage="es" path="">
+<Layout currentLanguage="es" story={story}>
 	<StoryblokComponent currentLanguage="es" blok={story.content} />
 </Layout>

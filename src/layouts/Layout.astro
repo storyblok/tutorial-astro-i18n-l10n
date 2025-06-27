@@ -1,7 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 const currentYear = new Date().getFullYear();
-const { currentLanguage, path } = Astro.props;
+const { currentLanguage, story } = Astro.props;
 ---
 
 <!doctype html>
@@ -16,7 +16,7 @@ const { currentLanguage, path } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 	</head>
 	<body>
-		<Header currentLanguage={currentLanguage} path={path} />
+		<Header currentLanguage={currentLanguage} story={story} />
 		<slot />
 		<footer>All rights reserved © {currentYear}</footer>
 	</body>
