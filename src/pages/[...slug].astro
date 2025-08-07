@@ -3,45 +3,19 @@ import { useStoryblokApi } from '@storyblok/astro';
 import StoryblokComponent from '@storyblok/astro/StoryblokComponent.astro';
 import Layout from '../layouts/Layout.astro';
 import { getLanguageCodes } from '../utils/i18n';
+import { getStoryblokPaths } from '../utils/paths';
 
 export async function getStaticPaths() {
 	const languages = await getLanguageCodes();
-	const storyblokApi = useStoryblokApi();
 
-	const links = await storyblokApi.getAll('cdn/links', {
-		version: 'draft',
-		starts_with: 'us',
-	});
-
-	const staticPaths = [];
-
-	for (const link of links) {
-		if (link.is_folder) continue;
-
-		staticPaths.push({
-			params: {
-				slug: link.slug === 'home' ? undefined : link.slug,
-			},
-		});
-
-		if (link.alternates && link.alternates.length > 0) {
-			for (const alternate of link.alternates) {
-				if (languages.includes(alternate.lang)) {
-					if (alternate.translated_slug === 'home') continue;
-					staticPaths.push({
-						params: {
-							slug: `${alternate.lang}/${alternate.translated_slug}`,
-						},
-					});
-				}
-			}
-		}
-	}
-
+	const staticPaths = await getStoryblokPaths('us', languages);
+	console.log('staticPaths US', staticPaths);
 	return staticPaths;
 }
 
+console.log('Astro.params.slug', Astro.params.slug);
 const slug = Astro.params.slug?.split('/') ?? [];
+console.log('slug', slug);
 
 const languages = await getLanguageCodes();
 const language = languages.includes(slug[0]) ? slug[0] : undefined;
@@ -50,6 +24,14 @@ if (language) {
 	slug.shift();
 }
 
+// add some logic here to prepend 'us/' to the slug if it doesn't start with 'us'
+// This is necessary to ensure that the Storyblok API can resolve the story correctly.
+// getStaticPaths generates paths that start with 'us', but our logic in the preview environment is different.
+// slug.length is checked to avoid adding 'us/' when the slug is empty, equaling the home story.
+/* if (slug.length && !slug[0].startsWith('us')) {
+	slug.unshift('us');
+}
+ */
 const storyblokApi = useStoryblokApi();
 const { data } = await storyblokApi.get(
 	`cdn/stories/us/${slug && slug.length > 0 ? slug.join('/') : 'home'}`,
@@ -57,7 +39,6 @@ const { data } = await storyblokApi.get(
 		version: 'draft',
 		resolve_links: 'story',
 		language,
-		//starts_with: 'us',
 	},
 );
 
