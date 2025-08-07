@@ -8,6 +8,9 @@ const getLanguageCodes = async () => {
 };
 
 const getI18nStorySlug = (currentLanguage, story) => {
+	if (!story || !story.translated_slugs) {
+		return '';
+	}
 	const translatedSlug = story.translated_slugs.find((slug) => {
 		return slug.path !== 'home' && slug.lang === currentLanguage;
 	});

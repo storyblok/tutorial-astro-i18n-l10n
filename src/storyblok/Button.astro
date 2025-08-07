@@ -4,13 +4,20 @@ import { storyblokEditable } from '@storyblok/astro';
 const { currentLanguage, blok } = Astro.props;
 
 let url;
+//console.log('blok.link', blok.link);
 if (blok.link.linktype === 'story') {
-	const slug = blok.link?.story?.full_slug;
+	let slug = blok.link?.story?.full_slug;
+	if (slug.startsWith('us/')) {
+		slug = slug.slice(3);
+		console.log('us/ removed from slug');
+	}
+	console.log('slug', slug);
 	url = currentLanguage ? `/${currentLanguage}/` : '/';
 	url += slug === 'home' ? '' : slug;
 } else if (blok.link.linktype === 'url') {
 	url = blok.link?.url;
 }
+console.log('url', url);
 ---
 
 <a href={url} class="button" {...storyblokEditable(blok)}>

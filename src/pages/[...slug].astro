@@ -10,6 +10,7 @@ export async function getStaticPaths() {
 
 	const links = await storyblokApi.getAll('cdn/links', {
 		version: 'draft',
+		starts_with: 'us',
 	});
 
 	const staticPaths = [];
@@ -51,11 +52,12 @@ if (language) {
 
 const storyblokApi = useStoryblokApi();
 const { data } = await storyblokApi.get(
-	`cdn/stories/${slug && slug.length > 0 ? slug.join('/') : 'home'}`,
+	`cdn/stories/us/${slug && slug.length > 0 ? slug.join('/') : 'home'}`,
 	{
 		version: 'draft',
 		resolve_links: 'story',
 		language,
+		//starts_with: 'us',
 	},
 );
 
