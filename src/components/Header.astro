@@ -3,10 +3,55 @@ import {
 	getRegionCodes,
 	getAvailableLanguagesForRegion,
 	getCleanSlug,
+	getTranslatedSlug,
 } from '../utils/i18n';
+
 const { currentLanguage, currentRegion, story } = Astro.props;
+
 const regions = getRegionCodes();
 const languages = getAvailableLanguagesForRegion(currentRegion);
+
+const storyFullSlug = story.default_full_slug || story.full_slug;
+let baseSlug = '';
+const homeSlugs = regions.map((region) => `${region}/home`);
+if (!homeSlugs.includes(storyFullSlug)) {
+	baseSlug = await getCleanSlug(storyFullSlug);
+}
+
+const regionLinks = regions.map((region) => {
+	const prefix = region !== 'us' ? `${region}/` : '';
+	return {
+		region,
+		href: `/${prefix}${baseSlug}`,
+		active: region === currentRegion,
+	};
+});
+
+const includeCurrentRegion = currentRegion !== 'us' ? `${currentRegion}/` : '';
+
+const additionalLanguageLinks = await Promise.all(
+	languages.map(async (lang) => {
+		const translatedSlug = await getTranslatedSlug(story, lang);
+		const fullSlug = translatedSlug
+			? `${includeCurrentRegion}${lang}/${translatedSlug}`
+			: `${includeCurrentRegion}${lang}/${baseSlug}`;
+
+		return {
+			lang,
+			href: `/${fullSlug}`,
+			active: lang === currentLanguage,
+		};
+	}),
+);
+
+const languageLinks = [
+	{
+		lang: 'en',
+		href: `/${includeCurrentRegion}${baseSlug}`,
+		active: !currentLanguage || currentLanguage === 'en',
+	},
+	...additionalLanguageLinks,
+];
 ---
 
 <header>
@@ -16,12 +61,9 @@ const languages = getAvailableLanguagesForRegion(currentRegion);
 			<summary>{currentRegion || 'us'}</summary>
 			<ul>
 				{
-					regions.map((region) => (
+					regionLinks.map(({ region, href, active }) => (
 						<li>
-							<a
-								href={`/${region !== 'us' ? `${region}/` : ''}${getCleanSlug(story)}`}
-								class={region === currentRegion ? 'active' : ''}
-							>
+							<a href={href} class={active ? 'active' : ''}>
 								{region}
 							</a>
 						</li>
@@ -35,19 +77,10 @@ const languages = getAvailableLanguagesForRegion(currentRegion);
 		<details aria-labelledby="language-switcher">
 			<summary>{currentLanguage || 'en'}</summary>
 			<ul>
-				<li>
-					<a
-						href={`/${currentRegion !== 'us' ? `${currentRegion}/` : ''}${getCleanSlug(story)}`}
-						class={!currentLanguage ? 'active' : ''}>en</a
-					>
-				</li>
 				{
-					languages.map((lang) => (
+					languageLinks.map(({ lang, href, active }) => (
 						<li>
-							<a
-								href={`/${currentRegion !== 'us' ? `${currentRegion}/` : ''}${lang}/${getCleanSlug(story)}`}
-								class={lang === currentLanguage ? 'active' : ''}
-							>
+							<a href={href} class={active ? 'active' : ''}>
 								{lang}
 							</a>
 						</li>
