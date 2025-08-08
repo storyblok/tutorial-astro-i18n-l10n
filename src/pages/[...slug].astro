@@ -35,6 +35,6 @@ const { data } = await storyblokApi.get(
 const story = data.story;
 ---
 
-<Layout currentLanguage={language} story={story}>
+<Layout currentLanguage={language} currentRegion="us" story={story}>
 	<StoryblokComponent currentLanguage={language} blok={story.content} />
 </Layout>

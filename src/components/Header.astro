@@ -1,32 +1,59 @@
 ---
-import { getLanguageCodes, getI18nStorySlug } from '../utils/i18n';
-const { currentLanguage, story } = Astro.props;
-const languages = await getLanguageCodes();
+import {
+	getRegionCodes,
+	getAvailableLanguagesForRegion,
+	getCleanSlug,
+} from '../utils/i18n';
+const { currentLanguage, currentRegion, story } = Astro.props;
+const regions = getRegionCodes();
+const languages = getAvailableLanguagesForRegion(currentRegion);
 ---
 
 <header>
-	<label id="language-switcher">Choose a language:</label>
-	<details aria-labelledby="language-switcher">
-		<summary>{currentLanguage || 'en'}</summary>
-		<ul>
-			<li>
-				<a
-					href={`/${getI18nStorySlug(null, story, languages)}`}
-					class={!currentLanguage ? 'active' : ''}>en</a
-				>
-			</li>
-			{
-				languages.map((lang) => (
-					<li>
-						<a
-							href={`/${getI18nStorySlug(lang, story, languages)}`}
-							class={lang === currentLanguage ? 'active' : ''}
-						>
-							{lang}
-						</a>
-					</li>
-				))
-			}
-		</ul>
-	</details>
+	<div>
+		<label id="region-switcher">Choose a region:</label>
+		<details aria-labelledby="region-switcher">
+			<summary>{currentRegion || 'us'}</summary>
+			<ul>
+				{
+					regions.map((region) => (
+						<li>
+							<a
+								href={`/${region !== 'us' ? `${region}/` : ''}${getCleanSlug(story)}`}
+								class={region === currentRegion ? 'active' : ''}
+							>
+								{region}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</details>
+	</div>
+	<div>
+		<label id="language-switcher">Choose a language:</label>
+		<details aria-labelledby="language-switcher">
+			<summary>{currentLanguage || 'en'}</summary>
+			<ul>
+				<li>
+					<a
+						href={`/${currentRegion !== 'us' ? `${currentRegion}/` : ''}${getCleanSlug(story)}`}
+						class={!currentLanguage ? 'active' : ''}>en</a
+					>
+				</li>
+				{
+					languages.map((lang) => (
+						<li>
+							<a
+								href={`/${currentRegion !== 'us' ? `${currentRegion}/` : ''}${lang}/${getCleanSlug(story)}`}
+								class={lang === currentLanguage ? 'active' : ''}
+							>
+								{lang}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</details>
+	</div>
 </header>
