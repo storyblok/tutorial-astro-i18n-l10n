@@ -10,9 +10,9 @@ if (blok.link.linktype === 'story') {
 	// only remove us/ as the eu/ slug should actually remain intact
 	if (slug.startsWith('us/')) {
 		slug = slug.slice(3);
-		console.log('us/ removed from slug');
+		//console.log('us/ removed from slug');
 	}
-	console.log('slug', slug);
+	//console.log('slug', slug);
 	url = currentLanguage ? `/${currentLanguage}/` : '/';
 	if (slug === 'home') {
 		url += '';
@@ -24,7 +24,7 @@ if (blok.link.linktype === 'story') {
 } else if (blok.link.linktype === 'url') {
 	url = blok.link?.url;
 }
-console.log('url', url);
+//console.log('url', url);
 ---
 
 <a href={url} class="button" {...storyblokEditable(blok)}>

@@ -12,7 +12,7 @@ export async function getStoryblokPaths(region = 'us', languages) {
 	for (const link of links) {
 		if (link.is_folder) continue;
 		const cleanedSlug = link.slug.slice(3); // Remove the region prefix (e.g., 'us/' or 'eu/') from the slug
-		console.log(link.slug);
+		//console.log(link.slug);
 
 		staticPaths.push({
 			params: {

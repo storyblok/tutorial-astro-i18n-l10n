@@ -13,9 +13,7 @@ export async function getStaticPaths() {
 	return staticPaths;
 }
 
-console.log('Astro.params.slug', Astro.params.slug);
 const slug = Astro.params.slug?.split('/') ?? [];
-console.log('slug', slug);
 
 const languages = await getLanguageCodes();
 const language = languages.includes(slug[0]) ? slug[0] : undefined;

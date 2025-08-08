@@ -2,7 +2,6 @@
 import { getLanguageCodes, getI18nStorySlug } from '../utils/i18n';
 const { currentLanguage, story } = Astro.props;
 const languages = await getLanguageCodes();
-const path = story.default_full_slug === 'home' ? '' : story.default_full_slug;
 ---
 
 <header>
@@ -11,13 +10,16 @@ const path = story.default_full_slug === 'home' ? '' : story.default_full_slug;
 		<summary>{currentLanguage || 'en'}</summary>
 		<ul>
 			<li>
-				<a href={`/${path}`} class={!currentLanguage ? 'active' : ''}>en</a>
+				<a
+					href={`/${getI18nStorySlug(null, story, languages)}`}
+					class={!currentLanguage ? 'active' : ''}>en</a
+				>
 			</li>
 			{
 				languages.map((lang) => (
 					<li>
 						<a
-							href={`/${lang}/${getI18nStorySlug(lang, story)}`}
+							href={`/${getI18nStorySlug(lang, story, languages)}`}
 							class={lang === currentLanguage ? 'active' : ''}
 						>
 							{lang}
