@@ -24,14 +24,6 @@ if (language) {
 	slug.shift();
 }
 
-// add some logic here to prepend 'us/' to the slug if it doesn't start with 'us'
-// This is necessary to ensure that the Storyblok API can resolve the story correctly.
-// getStaticPaths generates paths that start with 'us', but our logic in the preview environment is different.
-// slug.length is checked to avoid adding 'us/' when the slug is empty, equaling the home story.
-/* if (slug.length && !slug[0].startsWith('us')) {
-	slug.unshift('us');
-}
- */
 const storyblokApi = useStoryblokApi();
 const { data } = await storyblokApi.get(
 	`cdn/stories/us/${slug && slug.length > 0 ? slug.join('/') : 'home'}`,

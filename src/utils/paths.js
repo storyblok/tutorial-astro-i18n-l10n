@@ -20,6 +20,7 @@ export async function getStoryblokPaths(region = 'us', languages) {
 			},
 		});
 
+		// These alternates are for field-level versions of the slug.
 		if (link.alternates && link.alternates.length > 0) {
 			for (const alternate of link.alternates) {
 				if (languages.includes(alternate.lang)) {
