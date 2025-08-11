@@ -28,17 +28,22 @@ const getCleanSlug = async (slug) => {
 	const languages = await getLanguageCodes();
 	const regions = getRegionCodes();
 
+	let languageCode = '';
+
 	if (languages.includes(slugParts[0])) {
 		// If the first part of the slug is a language code, remove it
+		languageCode = slugParts[0];
 		slugParts.shift();
 	}
 
+	let regionCode = '';
 	if (regions.includes(slugParts[0])) {
 		// If the first part of the slug is a region code, remove it
+		regionCode = slugParts[0];
 		slugParts.shift();
 	}
 
-	return slugParts.join('/');
+	return { slug: slugParts.join('/'), languageCode, regionCode };
 };
 
 const getTranslatedSlug = async (story, language) => {
@@ -49,7 +54,27 @@ const getTranslatedSlug = async (story, language) => {
 	});
 
 	if (!translatedSlug) return false;
-	return await getCleanSlug(translatedSlug.path);
+	return (await getCleanSlug(translatedSlug.path)).slug;
+};
+
+const getLink = async (linkSlug, currentLanguage) => {
+	if (!linkSlug) return '';
+
+	const { slug, languageCode, regionCode } = await getCleanSlug(linkSlug);
+
+	const includeRegion =
+		regionCode && regionCode !== 'us' ? `${regionCode}/` : '';
+
+	let includeLanguage = '';
+	if (languageCode || currentLanguage) {
+		includeLanguage = (languageCode || currentLanguage) + '/';
+	}
+
+	if (slug === 'home') {
+		return `/${includeRegion}${includeLanguage}`;
+	}
+
+	return `/${includeRegion}${includeLanguage}${slug}`;
 };
 
 export {
@@ -58,4 +83,5 @@ export {
 	getAvailableLanguagesForRegion,
 	getCleanSlug,
 	getTranslatedSlug,
+	getLink,
 };

@@ -1,30 +1,16 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
+import { getLink } from '../utils/i18n';
 
 const { currentLanguage, blok } = Astro.props;
 
-let url;
-//console.log('blok.link', blok.link);
+let url = '';
+console.log('blok.link', blok.link);
 if (blok.link.linktype === 'story') {
-	let slug = blok.link?.story?.full_slug;
-	// only remove us/ as the eu/ slug should actually remain intact
-	if (slug.startsWith('us/')) {
-		slug = slug.slice(3);
-		//console.log('us/ removed from slug');
-	}
-	//console.log('slug', slug);
-	url = currentLanguage ? `/${currentLanguage}/` : '/';
-	if (slug === 'home') {
-		url += '';
-	} else if (slug === 'eu/home') {
-		url += 'eu';
-	} else {
-		url += slug;
-	}
+	url = await getLink(blok.link?.story?.full_slug, currentLanguage);
 } else if (blok.link.linktype === 'url') {
 	url = blok.link?.url;
 }
-//console.log('url', url);
 ---
 
 <a href={url} class="button" {...storyblokEditable(blok)}>

@@ -15,7 +15,8 @@ const storyFullSlug = story.default_full_slug || story.full_slug;
 let baseSlug = '';
 const homeSlugs = regions.map((region) => `${region}/home`);
 if (!homeSlugs.includes(storyFullSlug)) {
-	baseSlug = await getCleanSlug(storyFullSlug);
+	const slugData = await getCleanSlug(storyFullSlug);
+	baseSlug = slugData.slug;
 }
 
 const regionLinks = regions.map((region) => {
