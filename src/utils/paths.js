@@ -1,5 +1,7 @@
 import { useStoryblokApi } from '@storyblok/astro';
-export async function getStoryblokPaths(region = 'us', languages) {
+import { getLanguageCodes } from './i18n';
+export async function getStoryblokPaths(region = 'us') {
+	const languages = await getLanguageCodes();
 	const storyblokApi = useStoryblokApi();
 
 	const links = await storyblokApi.getAll('cdn/links', {
@@ -16,6 +18,8 @@ export async function getStoryblokPaths(region = 'us', languages) {
 		staticPaths.push({
 			params: {
 				slug: cleanedSlug === 'home' ? undefined : cleanedSlug,
+				// we probably also need to account for slugs like eu/es/home or es/home here.
+				// also for the region/language switcher
 			},
 		});
 

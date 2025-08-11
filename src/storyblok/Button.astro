@@ -5,7 +5,6 @@ import { getLink } from '../utils/i18n';
 const { currentLanguage, blok } = Astro.props;
 
 let url = '';
-console.log('blok.link', blok.link);
 if (blok.link.linktype === 'story') {
 	url = await getLink(blok.link?.story?.full_slug, currentLanguage);
 } else if (blok.link.linktype === 'url') {

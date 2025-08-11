@@ -6,11 +6,7 @@ import { getLanguageCodes } from '../../utils/i18n';
 import { getStoryblokPaths } from '../../utils/paths';
 
 export async function getStaticPaths() {
-	const languages = await getLanguageCodes();
-
-	const staticPaths = await getStoryblokPaths('eu', languages);
-	console.log('staticPaths EU', staticPaths);
-	return staticPaths;
+	return await getStoryblokPaths('eu');
 }
 
 const slug = Astro.params.slug?.split('/') ?? [];

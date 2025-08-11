@@ -9,7 +9,7 @@ import {
 const { currentLanguage, currentRegion, story } = Astro.props;
 
 const regions = getRegionCodes();
-const languages = getAvailableLanguagesForRegion(currentRegion);
+const languages = getAvailableLanguagesForRegion(currentRegion); // just get languages codes at first
 
 const storyFullSlug = story.default_full_slug || story.full_slug;
 let baseSlug = '';
@@ -20,10 +20,10 @@ if (!homeSlugs.includes(storyFullSlug)) {
 }
 
 const regionLinks = regions.map((region) => {
-	const prefix = region !== 'us' ? `${region}/` : '';
+	const includeRegion = region !== 'us' ? `${region}/` : '';
 	return {
 		region,
-		href: `/${prefix}${baseSlug}`,
+		href: `/${includeRegion}${baseSlug}`,
 		active: region === currentRegion,
 	};
 });
