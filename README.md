@@ -29,7 +29,7 @@ Rename the file `.env.example` to `.env` and provide your Storyblok access token
 STORYBLOK_DELIVERY_API_TOKEN="<REPLACE_WITH_YOUR_TOKEN>"
 ```
 
-## Run the project locally
+### 4. Run the project locally
 
 Start Astro's development server:
 
