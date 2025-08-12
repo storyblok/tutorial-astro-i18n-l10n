@@ -21,10 +21,6 @@ git clone https://github.com/storyblok/tutorial-astro-i18n-l10n.git
 npm install
 ```
 
-## Optional: Clone the space
-
-[Duplicate the reference space to your account](https://app.storyblok.com/#!/build/285353575353696). It contains the component schema and sample content. Alternatively, follow the tutorial to create everything step-by-step.
-
 ### 3. Authenticate
 
 Rename the file `.env.example` to `.env` and provide your Storyblok access token (find it under **Settings > Access Tokens** in your Storyblok space):
