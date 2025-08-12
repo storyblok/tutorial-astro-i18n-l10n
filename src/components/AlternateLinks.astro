@@ -1,7 +1,7 @@
 ---
 const { currentLanguage, story } = Astro.props;
 const alternateLinks = (story?.translated_slugs || [])
-	.filter((slug) => slug.lang !== currentLanguage) // skip current language
+	.filter((slug) => slug.lang !== currentLanguage)
 	.map((slug) => {
 		if (slug.lang === currentLanguage) return;
 		const path = slug.path === 'home' ? '' : slug.path;
@@ -11,7 +11,6 @@ const alternateLinks = (story?.translated_slugs || [])
 		};
 	});
 
-// Add x-default link if currentLanguage is set
 if (currentLanguage) {
 	let defaultSlug = story.default_full_slug || story.full_slug;
 	if (defaultSlug === 'home') defaultSlug = '';

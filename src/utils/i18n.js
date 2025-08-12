@@ -33,14 +33,14 @@ const getTranslatedSlug = async (story, language) => {
 	return (await getCleanSlug(translatedSlug.path)).slug;
 };
 
-const getLink = async (linkSlug, currentLanguage) => {
+const getInternalLink = async (linkSlug) => {
 	if (!linkSlug) return '';
 
 	const { slug, languageCode } = await getCleanSlug(linkSlug);
 
 	let includeLanguage = '';
-	if (languageCode || currentLanguage) {
-		includeLanguage = (languageCode || currentLanguage) + '/';
+	if (languageCode) {
+		includeLanguage = `${languageCode}/`;
 	}
 
 	if (slug === 'home') {
@@ -50,4 +50,4 @@ const getLink = async (linkSlug, currentLanguage) => {
 	return `/${includeLanguage}${slug}`;
 };
 
-export { getLanguageCodes, getCleanSlug, getTranslatedSlug, getLink };
+export { getLanguageCodes, getCleanSlug, getTranslatedSlug, getInternalLink };

@@ -11,9 +11,8 @@ const languages = await getLanguageCodes();
 const storyFullSlug = story.default_full_slug || story.full_slug;
 let baseSlug = '';
 
-// Check if the story slug is 'home' in any language to change the URL structure
 const homeSlugs = languages.map((lang) => `${lang}/home`);
-homeSlugs.push('home'); // Include the default 'home' slug
+homeSlugs.push('home');
 if (!homeSlugs.includes(storyFullSlug)) {
 	const slugData = await getCleanSlug(storyFullSlug);
 	baseSlug = slugData.slug;
