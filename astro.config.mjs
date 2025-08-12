@@ -25,6 +25,7 @@ export default defineConfig({
 			},
 		}),
 	],
+	site: 'https://your-site.com', // Replace with your actual site URL
 	output: 'server',
 	vite: {
 		plugins: [mkcert()],

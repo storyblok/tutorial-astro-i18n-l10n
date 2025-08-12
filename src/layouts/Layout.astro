@@ -1,5 +1,6 @@
 ---
 import Header from '../components/Header.astro';
+import AlternateLinks from '../components/AlternateLinks.astro';
 const currentYear = new Date().getFullYear();
 const { currentLanguage, story } = Astro.props;
 ---
@@ -13,6 +14,7 @@ const { currentLanguage, story } = Astro.props;
 		<link rel="stylesheet" href="/styles/global.css" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+		<AlternateLinks currentLanguage={currentLanguage} story={story} />
 		<meta name="generator" content={Astro.generator} />
 	</head>
 	<body>
