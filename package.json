@@ -14,8 +14,5 @@
 		"astro": "^5.10.1",
 		"vite": "^7.0.0",
 		"vite-plugin-mkcert": "^1.17.8"
-	},
-	"dependencies": {
-		"storyblok": "^4.3.2"
 	}
 }
