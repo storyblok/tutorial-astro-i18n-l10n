@@ -1,13 +1,12 @@
 ---
 import { storyblokEditable } from '@storyblok/astro';
+import { getLink } from '../utils/i18n';
 
 const { currentLanguage, blok } = Astro.props;
 
-let url;
+let url = '';
 if (blok.link.linktype === 'story') {
-	const slug = blok.link?.story?.full_slug;
-	url = currentLanguage ? `/${currentLanguage}/` : '/';
-	url += slug === 'home' ? '' : slug;
+	url = await getLink(blok.link?.story?.full_slug, currentLanguage);
 } else if (blok.link.linktype === 'url') {
 	url = blok.link?.url;
 }
