@@ -22,7 +22,7 @@ const additionalLanguageLinks = await Promise.all(
 	languages.map(async (lang) => {
 		const translatedSlug = await getTranslatedSlug(story, lang);
 		const fullSlug = translatedSlug
-			? `${lang}/${translatedSlug}`
+			? `${lang}/${translatedSlug === 'home' ? '' : translatedSlug}`
 			: `${lang}/${baseSlug}`;
 
 		return {
