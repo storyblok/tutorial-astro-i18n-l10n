@@ -57,7 +57,7 @@ const getTranslatedSlug = async (story, language) => {
 	return (await getCleanSlug(translatedSlug.path)).slug;
 };
 
-const getLink = async (linkSlug, currentLanguage) => {
+const getInternalLink = async (linkSlug, currentLanguage) => {
 	if (!linkSlug) return '';
 
 	const { slug, languageCode, regionCode } = await getCleanSlug(linkSlug);
@@ -83,5 +83,5 @@ export {
 	getAvailableLanguagesForRegion,
 	getCleanSlug,
 	getTranslatedSlug,
-	getLink,
+	getInternalLink,
 };
