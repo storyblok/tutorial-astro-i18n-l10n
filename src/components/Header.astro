@@ -8,8 +8,8 @@ import {
 
 const { currentLanguage, currentRegion, story } = Astro.props;
 
-const regions = getRegionCodes();
-const languages = getAvailableLanguagesForRegion(currentRegion); // just get languages codes at first
+const regions = await getRegionCodes();
+const languages = await getAvailableLanguagesForRegion(currentRegion); // just get languages codes at first
 
 const storyFullSlug = story.default_full_slug || story.full_slug;
 let baseSlug = '';

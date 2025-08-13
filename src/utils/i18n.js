@@ -1,17 +1,23 @@
 import { useStoryblokApi } from '@storyblok/astro';
 
-const getRegionCodes = () => {
-	// this could be managed in Storyblok as well
-	return ['us', 'eu'];
+const getStoryblokRegionLanguageCodes = async () => {
+	const storyblokApi = useStoryblokApi();
+	const { data } = await storyblokApi.get('cdn/datasource_entries', {
+		datasource: 'regions-and-languages',
+	});
+	return data.datasource_entries;
 };
 
-const languageCodesPerRegion = {
-	// this could be managed in Storyblok as well
-	us: ['es'],
-	eu: ['es', 'fr', 'de'],
+const getRegionCodes = async () => {
+	const codes = await getStoryblokRegionLanguageCodes();
+	return codes.map((code) => code.name);
 };
 
-const getAvailableLanguagesForRegion = (region) => {
+const getAvailableLanguagesForRegion = async (region) => {
+	const codes = await getStoryblokRegionLanguageCodes();
+	const languageCodesPerRegion = Object.fromEntries(
+		codes.map((code) => [code.name, code.value.split(',')]),
+	);
 	return languageCodesPerRegion[region] || [];
 };
 
@@ -26,19 +32,17 @@ const getCleanSlug = async (slug) => {
 	const slugParts = slug.split('/');
 
 	const languages = await getLanguageCodes();
-	const regions = getRegionCodes();
+	const regions = await getRegionCodes();
 
 	let languageCode = '';
 
 	if (languages.includes(slugParts[0])) {
-		// If the first part of the slug is a language code, remove it
 		languageCode = slugParts[0];
 		slugParts.shift();
 	}
 
 	let regionCode = '';
 	if (regions.includes(slugParts[0])) {
-		// If the first part of the slug is a region code, remove it
 		regionCode = slugParts[0];
 		slugParts.shift();
 	}
