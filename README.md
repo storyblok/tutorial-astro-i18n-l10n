@@ -41,4 +41,4 @@ Happy building!
 
 ## Next Part 
 
-Read the next part of the tutorial, [Build a Regionally Localized Website with Storyblok and Astro](https://storyblok.com/tp/regionally-localized-website-storyblok-astro), and see the code in the part-2 branch.
+Read the next part of the tutorial, [Build a Regionally Localized Website with Storyblok and Astro](https://storyblok.com/tp/regionally-localized-website-storyblok-astro), and see the code in the [part-2 branch](https://github.com/storyblok/tutorial-astro-i18n-l10n/tree/part-2).
