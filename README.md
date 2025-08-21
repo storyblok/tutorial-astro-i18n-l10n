@@ -26,7 +26,7 @@ npm install
 Rename the file `.env.example` to `.env` and provide your Storyblok access token (find it under **Settings > Access Tokens** in your Storyblok space):
 
 ```shell
-STORYBLOK_DELIVERY_API_TOKEN="<REPLACE_WITH_YOUR_TOKEN>"
+STORYBLOK_DELIVERY_API_TOKEN=<REPLACE_WITH_YOUR_TOKEN>
 ```
 
 ### 4. Run the project locally
